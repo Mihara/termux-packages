@@ -7,9 +7,9 @@ TERMUX_PKG_MAINTAINER="Leonid Plyushch <leonid.plyushch@gmail.com> @xeffyr"
 
 TERMUX_PKG_HOMEPAGE=https://pandoc.org/
 TERMUX_PKG_DESCRIPTION="Universal document converter"
-TERMUX_PKG_VERSION=2.5
+TERMUX_PKG_VERSION=2.6
 TERMUX_PKG_SRCURL=https://github.com/jgm/pandoc/releases/download/${TERMUX_PKG_VERSION}/pandoc-${TERMUX_PKG_VERSION}-linux.tar.gz
-TERMUX_PKG_SHA256=e33e1c7d6518b6cdc9b29ce8de37cc577fc8de2c039b33a3304863196fa59769
+TERMUX_PKG_SHA256=4f40bddeb0b0fa50a89c0301e9342c52439d4d8685f0631cafd040dcc2c97ab3
 TERMUX_PKG_DEPENDS="dash, qemu-user-x86_64"
 TERMUX_PKG_PLATFORM_INDEPENDENT=true
 
