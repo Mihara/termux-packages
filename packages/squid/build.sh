@@ -1,8 +1,9 @@
 TERMUX_PKG_HOMEPAGE=http://www.squid-cache.org
 TERMUX_PKG_DESCRIPTION="Full-featured Web proxy cache server"
+TERMUX_PKG_LICENSE="GPL-2.0"
 TERMUX_PKG_MAINTAINER="Vishal Biswas @vishalbiswas"
-TERMUX_PKG_VERSION=4.4
-TERMUX_PKG_SHA256=4905e6da7f5574d2583ba36f398bb062a12d51e70d67035078b6e85b09e9ee82
+TERMUX_PKG_VERSION=4.6
+TERMUX_PKG_SHA256=015bade5d3a4905142c4c605df5c4216471e3d8338079955e0e44b0ae0303d41
 TERMUX_PKG_SRCURL=http://www.squid-cache.org/Versions/v4/squid-$TERMUX_PKG_VERSION.tar.xz
 TERMUX_PKG_DEPENDS="libcrypt, openssl, libnettle, libltdl"
 # disk-io requires msgctl and store-io requires disk-io
@@ -32,7 +33,7 @@ squid_cv_gnu_atomics=yes
 --mandir=$TERMUX_PREFIX/share/man
 "
 
-termux_step_pre_configure () {
+termux_step_pre_configure() {
 	LDFLAGS="$LDFLAGS -llog"
 
 	# needed for building cf_gen

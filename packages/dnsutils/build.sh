@@ -1,7 +1,9 @@
 TERMUX_PKG_HOMEPAGE=https://www.isc.org/downloads/bind/
 TERMUX_PKG_DESCRIPTION="Clients provided with BIND"
-TERMUX_PKG_VERSION=9.13.4
-TERMUX_PKG_SHA256=ea02107ae0b22a5b3df76d4c45bd44414f1d17731fffc07813d8e5b4ce05f95b
+TERMUX_PKG_LICENSE="MPL-2.0"
+TERMUX_PKG_VERSION=9.13.6
+TERMUX_PKG_REVISION=2
+TERMUX_PKG_SHA256=ae771f209fd807d6cb9db20e16ee96ec4ba44b2052cda8c4487ddacae124870e
 TERMUX_PKG_SRCURL="ftp://ftp.isc.org/isc/bind9/${TERMUX_PKG_VERSION}/bind-${TERMUX_PKG_VERSION}.tar.gz"
 TERMUX_PKG_DEPENDS="openssl, readline, resolv-conf"
 TERMUX_PKG_EXTRA_CONFIGURE_ARGS="
@@ -19,7 +21,7 @@ TERMUX_PKG_EXTRA_CONFIGURE_ARGS="
 --with-eddsa=no
 "
 
-termux_step_pre_configure () {
+termux_step_pre_configure() {
 	export BUILD_AR=ar
 	export BUILD_CC=gcc
 	export BUILD_CFLAGS=
@@ -32,9 +34,10 @@ termux_step_pre_configure () {
 	LDFLAGS+=" -llog"
 }
 
-termux_step_make () {
+termux_step_make() {
 	make -C lib/isc
 	make -C lib/dns
+	make -C lib/ns
 	make -C lib/isccc
 	make -C lib/isccfg
 	make -C lib/bind9
@@ -44,9 +47,10 @@ termux_step_make () {
 	make -C bin/nsupdate
 }
 
-termux_step_make_install () {
+termux_step_make_install() {
 	make -C lib/isc install
 	make -C lib/dns install
+	make -C lib/ns install
 	make -C lib/isccc install
 	make -C lib/isccfg install
 	make -C lib/bind9 install

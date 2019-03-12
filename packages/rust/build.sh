@@ -1,12 +1,13 @@
 TERMUX_PKG_HOMEPAGE=https://www.rust-lang.org/
 TERMUX_PKG_DESCRIPTION="Systems programming language focused on safety, speed and concurrency"
+TERMUX_PKG_LICENSE="MIT"
 TERMUX_PKG_MAINTAINER="Kevin Cotugno @kcotugno"
-TERMUX_PKG_VERSION=1.31.0
-TERMUX_PKG_SHA256=9581c5673937f8b1c3c21060ef7c1fcd3e5574a0fc0b27e1888cb37c4b2ec393
+TERMUX_PKG_VERSION=1.32.0
+TERMUX_PKG_SHA256=d617a7dc39daaafa8256320991005fc376c8ef2080593918301b24466d0067af
 TERMUX_PKG_SRCURL=https://static.rust-lang.org/dist/rustc-$TERMUX_PKG_VERSION-src.tar.xz
 TERMUX_PKG_DEPENDS="clang, openssl, lld"
 
-termux_step_configure () {
+termux_step_configure() {
 	termux_setup_cmake
 	termux_setup_rust
 
@@ -25,24 +26,26 @@ termux_step_configure () {
 		| sed "s%\\@CARGO\\@%$CARGO%g" \
 		> config.toml
 
-	local env_host=`printf $CARGO_TARGET_NAME | tr a-z A-Z | sed s/-/_/g`
+	local env_host=$(printf $CARGO_TARGET_NAME | tr a-z A-Z | sed s/-/_/g)
 
 	export LD_LIBRARY_PATH=$TERMUX_PKG_BUILDDIR/build/x86_64-unknown-linux-gnu/llvm/lib
 	export ${env_host}_OPENSSL_DIR=$TERMUX_PREFIX
 	export X86_64_UNKNOWN_LINUX_GNU_OPENSSL_LIB_DIR=/usr/lib/x86_64-linux-gnu
 	export X86_64_UNKNOWN_LINUX_GNU_OPENSSL_INCLUDE_DIR=/usr/include
-
+	# for backtrace-sys
+	export CC_x86_64_unknown_linux_gnu=gcc
+	export CFLAGS_x86_64_unknown_linux_gnu="-O2"
 	unset CC CXX CPP LD CFLAGS CXXFLAGS CPPFLAGS LDFLAGS PKG_CONFIG
 }
 
-termux_step_make () {
+termux_step_make() {
 	$TERMUX_PKG_SRCDIR/x.py dist \
 		--host $CARGO_TARGET_NAME \
 		--target $CARGO_TARGET_NAME \
 		--target wasm32-unknown-unknown
 }
 
-termux_step_make_install () {
+termux_step_make_install() {
 	local host_files_to_remove="$TERMUX_PREFIX/lib/rustlib/x86_64-unknown-linux-gnu \
 		$TERMUX_PREFIX/lib/rustlib/manifest-rust-analysis-x86_64-unknown-linux-gnu \
 		$TERMUX_PREFIX/lib/rustlib/manifest-rust-std-x86_64-unknown-linux-gnu"

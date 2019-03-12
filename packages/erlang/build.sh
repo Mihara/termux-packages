@@ -1,9 +1,11 @@
 TERMUX_PKG_HOMEPAGE=https://www.erlang.org/
 TERMUX_PKG_DESCRIPTION="General-purpose concurrent functional programming language"
-TERMUX_PKG_VERSION=21.1.3
-TERMUX_PKG_SHA256=9a447e1debed355ff78f5d502dc8259139d5aed2362037e7cca9dc9919245eca
+TERMUX_PKG_LICENSE="Apache-2.0"
+TERMUX_PKG_VERSION=21.2.5
+TERMUX_PKG_REVISION=1
+TERMUX_PKG_SHA256=3ff578ab020a714be25d6787b81938df016db375692d4126a28f1303e6e9c165
 TERMUX_PKG_SRCURL=https://github.com/erlang/otp/archive/OTP-$TERMUX_PKG_VERSION.tar.gz
-TERMUX_PKG_DEPENDS="openssl, ncurses, libutil"
+TERMUX_PKG_DEPENDS="openssl, ncurses"
 TERMUX_PKG_HOSTBUILD="yes"
 TERMUX_PKG_BUILD_IN_SRC="yes"
 TERMUX_PKG_EXTRA_CONFIGURE_ARGS="--without-javac --with-ssl=${TERMUX_PREFIX} --with-termcap"
@@ -17,13 +19,13 @@ termux_step_post_extract_package() {
 	./otp_build autoconf
 }
 
-termux_step_host_build () {
+termux_step_host_build() {
 	cd $TERMUX_PKG_SRCDIR
 	./configure --enable-bootstrap-only
 	make -j "$TERMUX_MAKE_PROCESSES"
 }
 
-termux_step_pre_configure () {
+termux_step_pre_configure() {
 	(cd erts && autoreconf)
 
 	# liblog is needed for syslog usage:
